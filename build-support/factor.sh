@@ -372,11 +372,6 @@ git_fetch_factorcode() {
     fi
 }
 
-cd_factor() {
-    cd factor
-    check_ret cd
-}
-
 set_copy() {
     case $OS in
         windows) COPY=cp;;
@@ -493,7 +488,6 @@ install() {
     check_factor_exists
     get_config_info
     git_clone
-    cd_factor
     make_factor
     get_boot_image
     bootstrap
