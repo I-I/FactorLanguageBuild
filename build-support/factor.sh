@@ -141,37 +141,6 @@ check_library_exists() {
     check_ret $DELETE
 }
 
-check_X11_libraries() {
-    if [ -z "$NO_UI" ]; then
-        check_library_exists GL
-        check_library_exists X11
-        check_library_exists pango-1.0
-    fi
-}
-
-check_gtk_libraries() {
-    if [ -z "$NO_UI" ]; then
-        check_library_exists gobject-2.0
-        check_library_exists gtk-x11-2.0
-        check_library_exists gdk-x11-2.0
-        check_library_exists gdk_pixbuf-2.0
-        check_library_exists gtkglext-x11-1.0
-        check_library_exists atk-1.0
-        check_library_exists gio-2.0
-        check_library_exists gdkglext-x11-1.0
-        check_library_exists pango-1.0
-    fi
-}
-
-
-check_libraries() {
-    case $OS in
-            linux) check_X11_libraries
-                   check_gtk_libraries;;
-            unix) check_gtk_libraries;;
-    esac
-}
-
 check_factor_exists() {
     if [[ -d "factor" ]] ; then
         $ECHO "A directory called 'factor' already exists."
@@ -508,7 +477,6 @@ get_url() {
 get_config_info() {
     find_build_info
     check_installed_programs
-    check_libraries
 }
 
 copy_fresh_image() {
