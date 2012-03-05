@@ -26,7 +26,7 @@ If ( Q-Processor )
 	Set ( Processor-x86 1 )
 Else ()
 	Unset ( Q-Processor )
-	Check_Symbol_Exists ( __x86_64  "" Q-Processor )
+	Check_Symbol_Exists ( __x86_64 "" Q-Processor )
 If ( Q-Processor )
 	Set ( Processor-x86 1 )
 Else()
@@ -56,7 +56,9 @@ Unset ( Q-Processor )
 # End processor type check
 
 If ( Processor-x86 )
-	List ( APPEND PlatformLibrary cpu-x86.cpp)
+	List ( APPEND PlatformLibrary cpu-x86.cpp )
+ElseIf ( Processor-ARM )
+	List ( APPEND PlatformLibrary os-linux-arm.cpp )
 EndIf()
 
 
