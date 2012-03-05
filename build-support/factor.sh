@@ -333,11 +333,11 @@ parse_build_info() {
     OS=`echo $1 | cut -d '-' -f 1`
     ARCH=`echo $1 | cut -d '-' -f 2`
     WORD=`echo $1 | cut -d '-' -f 3`
-    
+
     if [[ $OS == linux && $ARCH == ppc ]] ; then WORD=32; fi
     if [[ $OS == linux && $ARCH == arm ]] ; then WORD=32; fi
     if [[ $OS == macosx && $ARCH == ppc ]] ; then WORD=32; fi
-    
+
     $ECHO "OS=$OS"
     $ECHO "ARCH=$ARCH"
     $ECHO "WORD=$WORD"
@@ -385,7 +385,7 @@ update_script() {
 }
 
 update_script_changed() {
-    invoke_git diff --stat `invoke_git merge-base HEAD FETCH_HEAD` FETCH_HEAD | grep 'build-support.factor\.sh' >/dev/null 
+    invoke_git diff --stat `invoke_git merge-base HEAD FETCH_HEAD` FETCH_HEAD | grep 'build-support.factor\.sh' >/dev/null
 }
 
 git_fetch_factorcode() {
@@ -453,7 +453,13 @@ make_clean() {
 }
 
 make_factor() {
-    invoke_make NO_UI=$NO_UI $MAKE_TARGET -j5
+    mkdir Build
+    pushd Build
+    if [ -z "$NO_UI" ]; then GUI=1 ; else GUI=0; fi
+    cmake -D GUI:BOOL=${GUI} ../vm
+    make VERBOSE=1
+    ln factor ..
+    popd
 }
 
 make_clean_factor() {

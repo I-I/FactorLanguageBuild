@@ -1,4 +1,11 @@
-Project ( Factor )
+# In addition to the BSD style license the rest of Factor ist licensed under,
+# You can use, redistribute, or modify this software under the terms of the
+# GNU General Public License as published by the Free Software Foundation,
+# either version 3 of the License, or any later version.
+# See <http://www.gnu.org/licenses/>.
+# © 2012 : Nathan Johnson
+
+Project ( FactorLanguage )
 CMake_Minimum_Required ( VERSION 2.8 )
 #Add_Definitions ( -pipe -fPIC -Wl,--export-dynamic -Wl,--no-as-needed )
 
@@ -58,7 +65,7 @@ If ( UNIX ) # including Apple OS X and CygWin
 		If ( GUI )
 			find_package(PkgConfig) # Load the function
 			pkg_check_modules ( Library REQUIRED
-gtkglext-1.0 gtk+-2.0  pangox gdk-2.0 gio-2.0 pangoft2 gmodule-2.0 gthread-2.0 glib-2.0
+gtkglext-1.0 gtk+-2.0 pangox gdk-2.0 gio-2.0 pangoft2 gmodule-2.0 gthread-2.0 glib-2.0
 				)
 		List ( APPEND SystemLibraries ${Library_LIBRARIES} )
 		EndIf()
@@ -70,7 +77,7 @@ Else ()
 	Messsage ( FATAL_ERROR "Target OS is not supported." )
 EndIf()
 
-Add_Library ( factor SHARED ${PlatformLibrary}
+Add_Library ( FactorStack SHARED ${PlatformLibrary}
 aging_collector.cpp
 alien.cpp
 arrays.cpp
@@ -117,6 +124,6 @@ vm.cpp
 words.cpp
 )
 
-Add_Executable ( factorStack ${PlatformExecutable} ${PlatformLibrary} )
+Add_Executable ( factor ${PlatformExecutable} ${PlatformLibrary} )
 
-Target_Link_Libraries ( factorStack factor m ${SystemLibraries} )
+Target_Link_Libraries ( factor FactorStack m rt ${SystemLibraries} )

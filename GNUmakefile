@@ -11,8 +11,6 @@ ifdef CONFIG
 
 	ifdef DEBUG
 		CFLAGS += -g -DFACTOR_DEBUG
-	else
-		CFLAGS += -O3
 	endif
 
 	include $(CONFIG)
