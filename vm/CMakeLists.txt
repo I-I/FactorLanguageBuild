@@ -5,9 +5,13 @@
 # See <http://www.gnu.org/licenses/>.
 # © 2012 : Nathan Johnson
 
-Project ( FactorLanguage )
 CMake_Minimum_Required ( VERSION 2.8 )
+Project ( FactorLanguage )
+Set ( FactorLanguage_VERSION_MAJOR 0 )
+Set ( FactorLanguage_VERSION_MINOR 0 )
 #Add_Definitions ( -pipe -fPIC -Wl,--export-dynamic -Wl,--no-as-needed )
+
+Set ( FactorBinaryName "factorStack" CACHE STRING "Name of the executable containing the entry point." )
 
 Include(CheckTypeSize)
 Check_Type_Size("int" WordToYourMotherboard BUILTIN_TYPES_ONLY)
@@ -138,6 +142,19 @@ vm.cpp
 words.cpp
 )
 
-Add_Executable ( factor ${PlatformExecutable} ${PlatformLibrary} )
+Add_Executable ( ${FactorBinaryName} ${PlatformExecutable} ${PlatformLibrary} )
 
-Target_Link_Libraries ( factor FactorStack m rt ${SystemLibraries} )
+Target_Link_Libraries ( ${FactorBinaryName} FactorStack m rt ${SystemLibraries} )
+
+Install (
+	TARGETS  ${FactorBinaryName} FactorStack
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib )
+#tar --owner=root
+Set ( CPACK_GENERATOR "DEB")
+Set ( CPACK_PACKAGE_CONTACT "noone@dev.null" )
+Set ( CPACK_BINARY_STGZ "Off")
+Set ( CPACK_BINARY_TZ "Off")
+Set ( CPACK_SOURCE_TBZ2 "Off")
+#Set (  CPACK_PACKAGE_EXECUTABLES "factor")
+Include(CPack)

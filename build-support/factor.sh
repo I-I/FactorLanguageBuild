@@ -224,7 +224,7 @@ find_word_size() {
 set_factor_binary() {
     case $OS in
         windows) FACTOR_BINARY=factor.com;;
-        *) FACTOR_BINARY=factor;;
+        *) FACTOR_BINARY=factorStack;;
     esac
 }
 
@@ -421,8 +421,9 @@ make_factor() {
     pushd Build
     if [ -z "$NO_UI" ]; then GUI=1 ; else GUI=0; fi
     cmake -D GUI:BOOL=${GUI} ../vm
-    make VERBOSE=1
-    ln factor ..
+    make
+    unlink ../$FACTOR_BINARY
+    ln $FACTOR_BINARY ..
     popd
 }
 
