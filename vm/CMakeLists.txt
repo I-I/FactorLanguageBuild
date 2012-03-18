@@ -9,9 +9,22 @@ CMake_Minimum_Required ( VERSION 2.8 )
 Project ( FactorLanguage )
 Set ( FactorLanguage_VERSION_MAJOR 0 )
 Set ( FactorLanguage_VERSION_MINOR 0 )
-#Add_Definitions ( -pipe -fPIC -Wl,--export-dynamic -Wl,--no-as-needed )
 
 Set ( FactorBinaryName "factorStack" CACHE STRING "Name of the executable containing the entry point." )
+
+# For adding optional parameters
+Include(CheckCXXCompilerFlag)
+Function(AddSupportedCXX)
+	ForEach( P IN LISTS ARGV )
+		Check_CXX_Compiler_Flag ( ${P} Supported )
+		If ( Supported )
+			Add_Definitions( ${P} )
+		EndIf()
+		Unset ( Supported CACHE )
+	EndForEach()
+EndFunction(AddSupportedCXX)
+
+AddSupportedCXX ( -pipe -fPIC -Wl,--export-dynamic -Wl,--no-as-needed )
 
 Include(CheckTypeSize)
 Check_Type_Size("int" WordToYourMotherboard BUILTIN_TYPES_ONLY)
